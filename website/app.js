@@ -9,7 +9,7 @@ const baseUrl = "http://api.openweathermap.org/data/2.5/weather?zip=";
 const zipCode = document.getElementById("zip");
 const keyInput = document.getElementById("key");
 const feelingsInput = document.getElementById("feelings");
-
+console.log(feelingsInput.textContent);
 //Latest weather values
 const userContent = document.getElementById("content");
 const dateHolder = document.getElementById("date");
@@ -21,7 +21,7 @@ const getURL = "http://localhost:3000/all";
 // Create a new date instance dynamically with JS
 let d = new Date();
 let newDate = d.getMonth() + "." + d.getDate() + "." + d.getFullYear();
-
+console.log(newDate);
 const getWeather = async (url, zip, api) => {
   const data = await fetch(url + `${zip}&units=metric&APPID=` + api);
   const response = await data.json();
@@ -62,8 +62,14 @@ const buttonClick = async () => {
 
 const element = document.getElementById("generate");
 element.addEventListener("click", () => {
+  if (!zipCode.value) {
+    zipCode.value = 33101;
+  }
   console.log("Button Clicked");
   getWeather(baseUrl, zipCode.value, apiKey).then(data => {
     console.log(`Temperature is ${data.main.temp}`);
+    userContent.innerHTML = `Message: ${feelingsInput.value}`;
+    dateHolder.innerHTML = `Date: ${newDate}`;
+    tempHolder.innerHTML = `Temperature: ${data.main.temp}`;
   });
 });
